@@ -2,7 +2,7 @@ version: '2'
 services:
 
   rabbitmq:
-    image: library/rabbitmq
+    image: library/rabbitmq:3.6
     restart: on-failure
     network_mode: bridge
     ports:
@@ -25,6 +25,7 @@ services:
       - INASAFE_WORK_DIR=/home/headless
       - TASK_ALWAYS_EAGER=False
       - ON_TRAVIS=False
+      - QGIS_DEBUG=0
     links:
       - rabbitmq
     network_mode: bridge

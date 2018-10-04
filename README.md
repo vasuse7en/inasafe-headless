@@ -2,6 +2,13 @@
 
 Run InaSAFE headlessly as docker container.
 
+Statuses:
+
+[![Build Status](https://travis-ci.org/inasafe/inasafe-headless.svg?branch=develop)](https://travis-ci.org/inasafe/inasafe-headless)
+
+[![codecov](https://codecov.io/gh/inasafe/inasafe-headless/branch/develop/graph/badge.svg)](https://codecov.io/gh/inasafe/inasafe-headless)
+
+
 ## Setup Development Environment
 
 ### Prerequisites:
@@ -21,6 +28,7 @@ Run InaSAFE headlessly as docker container.
         2. `remote_group` (your user's group) (usually your username on linux, "staff" on macos)
         3. `project_path` (the location of this project)
         4. `interpreters->inasafe-headless->ipaddress` (your IP address)
+        5. `test_data_path`, the location of the test data within this project
 3. Go to deployment directory `cd inasafe-headless/deployment`
 3. Run `make setup-ansible` to setup the environment, make sure to get no failed. Restart PyCharm if needed.
 4. Run `make build`

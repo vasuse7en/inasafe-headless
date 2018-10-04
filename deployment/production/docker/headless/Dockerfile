@@ -1,18 +1,5 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
-FROM debian:jessie
-
-RUN apt-get -y update; apt-get -y --force-yes install apt-transport-https
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
-
-RUN echo "deb     http://qgis.org/debian jessie main" >> /etc/apt/sources.list
-RUN echo "deb-src http://qgis.org/debian jessie main" >> /etc/apt/sources.list
-
-RUN apt-get -y update; apt-get -y --force-yes install qgis python-qgis
-RUN apt-get -y update; apt-get -y --force-yes install build-essential autoconf libtool pkg-config
-
-RUN export DEBIAN_FRONTEND=noninteractive
-ENV DEBIAN_FRONTEND noninteractive
-RUN dpkg-divert --local --rename --add /sbin/initctl
+FROM kartoza/qgis-desktop:2.18
 
 RUN apt-get -y update; apt-get -y --force-yes install pwgen git inotify-tools
 
@@ -36,7 +23,7 @@ RUN chmod +x /docker-entrypoint.sh
 # Install InaSAFE Core
 RUN mkdir -p /usr/share/qgis/python/plugins
 WORKDIR /usr/share/qgis/python/plugins
-ARG INASAFE_CORE_TAG=develop
+ARG INASAFE_CORE_TAG=version-4_4_0
 RUN git clone --branch ${INASAFE_CORE_TAG} --depth 1 --recursive https://github.com/inasafe/inasafe.git inasafe
 
 # Install InaSAFE Headless
@@ -46,4 +33,5 @@ ARG INASAFE_HEADLESS_TAG=develop
 RUN git clone --branch ${INASAFE_HEADLESS_TAG} --depth 1 https://github.com/inasafe/inasafe-headless.git source
 RUN ln -s source/src/headless headless
 
-CMD ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["prod", "inasafe-headless-worker"]
